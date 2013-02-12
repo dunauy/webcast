@@ -33,3 +33,10 @@ tpl = {
     }
  
 };
+
+var utils = {};
+
+utils.webinarQueryConstructor = function( roomName, userName ) {
+	return 'webinar/' + roomName + '/' + userName;
+}
+

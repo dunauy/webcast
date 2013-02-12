@@ -23,8 +23,12 @@ var homeView = Backbone.View.extend( {
 	},
 	
 	loadWebinar : function(event){
-		alert( 'login : ' + $('#loginField').val() + ' room : ' + $('#roomField').val() );
-//		this.navigate('webinar');
+		
+		//TODO: Validar que nos llega el login y room.
+		
+		endpoint = utils.webinarQueryConstructor($('#roomField').val(), $('#loginField').val());
+		Backbone.history.navigate( endpoint, {trigger:'true'});
+		
 
 	}
 	

@@ -1,8 +1,11 @@
   var webinarView = Backbone.View.extend({
   	el: $('#content'),
+  	
     initialize:function () {
         console.log('Initializing Main Webinar View');
+        console.log( 'login : ' + this.model.get('user').login + ' room : ' + this.model.get('room') );
     },
+    
     render:function () {
      	console.log('Rendering Main Webinar View');
 

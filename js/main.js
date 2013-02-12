@@ -1,31 +1,36 @@
 window.Router = Backbone.Router.extend({
 	
 	routes: {
-		"":"home",
-		"webinar":"webinar",
-		"chat":"chat",
-		"*other":"webinar"
+		"":"loadHome",
+		"webinar/:roomName/:userName":"loadWebinar",
+		"chat":"loadChat",
+		"*other":"loadHome"
 	},
 	
 	initialize: function () {
 		
 	},
 	
-	webinar: function() {
+	loadWebinar: function(roomName, userName) {
+		
+		var webinar = new Webinar();
+		webinar.set({room: roomName});
+		webinar.set({user:{login:userName}});
+		
 		if(!this.webinarView) {
-			this.webinarView = new webinarView();
+			this.webinarView = new webinarView({model: webinar});
 		}
 		this.webinarView.render();
 	},
 	
-	chat: function() {
+	loadChat: function() {
 		if(!this.chatView) {
 			this.chatView = new chatView();
 		}
 		this.chatView.render();
 	}, 
 	
-	home: function() {
+	loadHome: function() {
 		if(!this.homeView) {
 			this.homeView = new homeView()
 		}
