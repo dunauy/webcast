@@ -14,7 +14,16 @@
         
         // Load the compiled HTML into the Backbone "el"
         this.$el.html( template );
+        
+        
+        //TODO: This should be called by handling model events from webrtc stream changes
+        // Load Media Streams
+        webrtc.videoChatLoadDefinitions();
+    	webrtc.videoChatGetStream();
 
         return this;
     },
+    
+    
+    
   });
