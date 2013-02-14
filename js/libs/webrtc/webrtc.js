@@ -12,11 +12,22 @@ webrtc = {
     videoChatGetStream:function() {
     	
     	var mediaRequested = {audio:true, video:true};
-    	var mediaContainer = document.querySelector("videoContainer");	//TODO: this should be linked from the view.
+    	var mediaContainer = $('#videoElement');	//TODO: this should be linked from the view.
     	
 		var videoChatStreamCallBack = function(localMediaStream) {
 			try {
-				mediaContainer.src = window.URL.createObjectURL(localMediaStream);
+				//mediaContainer.src = window.URL.createObjectURL(localMediaStream);
+				mediaContainer.attr('src',URL.createObjectURL(localMediaStream));
+				mediaContainer.play();
+				console.log("Version 2");
+				
+		      // When video signals that it has loadedmetadata, begin "playing"
+		      this.mediaContainer.addEventListener( "loadedmetadata", function() {
+		        this.mediaContainer.play();
+		      }.bind(this), false);
+		      console.log("Version 3");
+				
+				
 			} catch(e) {
 				try {
 					mediaContainer.mozSrcObject = localMediaStream;
