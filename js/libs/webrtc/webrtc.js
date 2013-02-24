@@ -17,15 +17,35 @@ webrtc = {
 		var videoChatStreamCallBack = function(localMediaStream) {
 			try {
 				//mediaContainer.src = window.URL.createObjectURL(localMediaStream);
-				mediaContainer.attr('src',URL.createObjectURL(localMediaStream));
+				if(window.URL){
+					mediaContainer.attr('src',URL.createObjectURL(localMediaStream));
+				} else {
+					mediaContainer.attr('src',localMediaStream);		// Opera localMediaStream returns a String
+				}
+				
+				if(!mediaContainer.play && mediaContainer[0]) {
+					mediaContainer = mediaContainer[0]		// Opera returns an array of one element.
+				}
+				
 				mediaContainer.play();
 				console.log("Version 2");
 				
 		      // When video signals that it has loadedmetadata, begin "playing"
-		      this.mediaContainer.addEventListener( "loadedmetadata", function() {
-		        this.mediaContainer.play();
+		      mediaContainer.addEventListener( "loadedmetadata", function() {
+		        console.log("on loadmetadata");
+		        mediaContainer.play();
+		        console.log("end on loadmetadata");
 		      }.bind(this), false);
+		      
 		      console.log("Version 3");
+		      
+		      mediaContainer.addEventListener("timeupdate", function() {
+		      	console.log("on timeupdate");
+		      	this.draw();
+		      	console.log("end on timeupdate");
+		      }.bind(this), false);
+		      
+		      console.log("End videochatgetstream");
 				
 				
 			} catch(e) {
