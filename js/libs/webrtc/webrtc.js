@@ -17,24 +17,33 @@ webrtc = {
 		var videoChatStreamCallBack = function(localMediaStream) {
 			try {
 				
-				if(!mediaContainer.play && mediaContainer[0]) {
-					mediaContainer = mediaContainer[0]		// Opera returns an array of one element.
-				}
+				//if(!mediaContainer.play && mediaContainer[0]) {
+				//	mediaContainer = mediaContainer[0]		// Opera returns an array of one element.
+				//}
 
 				//mediaContainer.src = window.URL.createObjectURL(localMediaStream);
-				if(window.URL){
-					mediaContainer.attr('src',URL.createObjectURL(localMediaStream));
+				var videoSource = function() {
+					if(window.URL){
+						return URL.createObjectURL(localMediaStream);
+					} else {
+						return localMediaStream;		// Opera localMediaStream returns a String
+					}
+				}
+				
+				if(mediaContainer.attr) {
+					mediaContainer.attr('src',videoSource());
 				} else {
-					mediaContainer.src = localMediaStream;		// Opera localMediaStream returns a String
+					mediaContainer = mediaContainer[0];		// TODO : I need to resolve my problems with Opera and jquery.
+					mediaContainer.src = videoSource;
 				}
 				
 				mediaContainer.play();
 				console.log("Version 2");
 				
 		      // When video signals that it has loadedmetadata, begin "playing"
-		      mediaContainer.addEventListener( "loadedmetadata", function() {
+		      this.mediaContainer.addEventListener( "loadedmetadata", function() {
 		        console.log("on loadmetadata");
-		        mediaContainer.play();
+		        this.mediaContainer.play();
 		        console.log("end on loadmetadata");
 		      }.bind(this), false);
 		      
