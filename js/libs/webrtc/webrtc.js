@@ -16,15 +16,16 @@ webrtc = {
     	
 		var videoChatStreamCallBack = function(localMediaStream) {
 			try {
+				
+				if(!mediaContainer.play && mediaContainer[0]) {
+					mediaContainer = mediaContainer[0]		// Opera returns an array of one element.
+				}
+
 				//mediaContainer.src = window.URL.createObjectURL(localMediaStream);
 				if(window.URL){
 					mediaContainer.attr('src',URL.createObjectURL(localMediaStream));
 				} else {
-					mediaContainer.attr('src',localMediaStream);		// Opera localMediaStream returns a String
-				}
-				
-				if(!mediaContainer.play && mediaContainer[0]) {
-					mediaContainer = mediaContainer[0]		// Opera returns an array of one element.
+					mediaContainer.src = localMediaStream;		// Opera localMediaStream returns a String
 				}
 				
 				mediaContainer.play();
