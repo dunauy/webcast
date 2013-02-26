@@ -30,14 +30,18 @@ webrtc = {
 					}
 				}
 				
-				if(mediaContainer.attr) {
-					mediaContainer.attr('src',videoSource());
-				} else {
-					mediaContainer = mediaContainer[0];		// TODO : I need to resolve my problems with Opera and jquery.
-					mediaContainer.src = videoSource;
+				
+				if(!mediaContainer.play) {
+					this.mediaContainer = mediaContainer[0];		// TODO : I need to resolve my problems with Opera and jquery.
 				}
 				
-				mediaContainer.play();
+				if(this.mediaContainer.attr) {
+					this.mediaContainer.attr('src',videoSource());
+				} else {
+					this.mediaContainer.src = videoSource();
+				}
+				
+				this.mediaContainer.play();
 				console.log("Version 2");
 				
 		      // When video signals that it has loadedmetadata, begin "playing"
@@ -49,7 +53,7 @@ webrtc = {
 		      
 		      console.log("Version 3");
 		      
-		      mediaContainer.addEventListener("timeupdate", function() {
+		      this.mediaContainer.addEventListener("timeupdate", function() {
 		      	console.log("on timeupdate");
 		      	this.draw();
 		      	console.log("end on timeupdate");
@@ -66,7 +70,7 @@ webrtc = {
 					console.log("Error connecting video to container : ", e);
 				}
 			}
-    	};
+    	}.bind(this);
     	
     	var videoChatErrorCallBack = function(error) {
     		console.log("Error getting video source : ", error);
@@ -80,5 +84,4 @@ webrtc = {
     }
 	
 };
-
 
